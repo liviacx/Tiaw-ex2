@@ -46,13 +46,13 @@ public class DAO {
 		return status;
     }
 
-    public boolean inserirAnimal(Animais animal) {
+    public boolean inserirMaquiagem(Maquiagem maquiagem) {
         boolean status = false;
         try {
             Statement st = conexao.createStatement();
-            st.executeUpdate("INSERT INTO animais (codigo, tipo, nome, raça) "
-                    + "VALUES (" + animal.getCodigo() + ", '" + animal.getTipo() + "', '"
-                    + animal.getNome() + "', '" + animal.getRaca() + "');");
+            st.executeUpdate("INSERT INTO maquiagem (codigo, regiao, marca, produto) "
+                    + "VALUES (" + maquiagem.getCodigo() + ", '" + maquiagem.getRegiao() + "', '"
+                    + maquiagem.getMarca() + "', '" + maquiagem.getProduto() + "');");
             st.close();
             status = true;
         } catch (SQLException u) {
@@ -61,13 +61,13 @@ public class DAO {
         return status;
     }
 
-    public boolean atualizarAnimal(Animais animal) {
+    public boolean atualizarMaquiagem(Maquiagem maquiagem) {
         boolean status = false;
         try {
             Statement st = conexao.createStatement();
-            String sql = "UPDATE animais SET tipo = '" + animal.getTipo() + "', nome = '"
-                    + animal.getNome() + "', raça = '" + animal.getRaca() + "'"
-                    + " WHERE codigo = " + animal.getCodigo();
+            String sql = "UPDATE maquiagem SET regiao = '" + maquiagem.getRegiao() + "', marca = '"
+                    + maquiagem.getMarca() + "', produto = '" + maquiagem.getProduto() + "'"
+                    + " WHERE codigo = " + maquiagem.getCodigo();
             st.executeUpdate(sql);
             st.close();
             status = true;
@@ -77,11 +77,11 @@ public class DAO {
         return status;
     }
 
-    public boolean excluirAnimal(int codigo) {
+    public boolean excluirMaquiagem(int codigo) {
         boolean status = false;
         try {
             Statement st = conexao.createStatement();
-            st.executeUpdate("DELETE FROM animais WHERE codigo = " + codigo);
+            st.executeUpdate("DELETE FROM maquiagem WHERE codigo = " + codigo);
             st.close();
             status = true;
         } catch (SQLException u) {
@@ -90,27 +90,27 @@ public class DAO {
         return status;
     }
 
-    public Animais[] getAnimais() {
-        Animais[] animais = null;
+    public Maquiagem[] getMaquiagem() {
+        Maquiagem[] maquiagem = null;
 
         try {
             Statement st = conexao.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            ResultSet rs = st.executeQuery("SELECT * FROM animais");
+            ResultSet rs = st.executeQuery("SELECT * FROM maquiagem");
             if (rs.next()) {
                 rs.last();
-                animais = new Animais[rs.getRow()];
+                maquiagem = new Maquiagem[rs.getRow()];
                 rs.beforeFirst();
 
                 for (int i = 0; rs.next(); i++) {
-                    animais[i] = new Animais(rs.getInt("codigo"), rs.getString("tipo"),
-                            rs.getString("nome"), rs.getString("raça"));
+                    maquiagem[i] = Maquiagem(rs.getInt("codigo"), rs.getString("regiao"),
+                            rs.getString("marca"), rs.getString("produto"));
                 }
             }
             st.close();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
-        return animais;
+        return maquiagem;
     }
 
 }
