@@ -1,4 +1,4 @@
-package com.ti2cc;
+package com.ti2cc; 
 
 public class Maquiagem {
     private int codigo;
